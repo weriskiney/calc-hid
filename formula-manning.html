@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    /* Adicionar estilo CSS aqui */
+    h1 {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      color: blue;
+      margin-bottom: 0px;
+    }
+    h2 {
+      text-align: center;	
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+      color: blue;
+      margin-bottom: 30px;
+      margin-top: 0px;
+    }
+    h3 {
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      font-weight: bold;
+      color: blue;
+      margin-bottom: 10px;
+    }
+    h4 {
+	  text-align: center;
+	  font-family: Arial, sans-serif;
+	  font-size: 12px;
+	  color: blue;
+	  margin-top: 30px;
+	  margin-bottom: 0px;
+	  display: block;
+	  width: 25%;
+	  margin: 0 auto;
+	}
+    form {
+      width: 500px;
+      margin: 0 auto;
+      text-align: left;
+      font-family: Arial, sans-serif;
+    }
+    p {
+      font-family: Arial, sans-serif;
+	  word-wrap: break-word;
+    }
+    select {
+      font-family: Arial, sans-serif;
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-top: 6px;
+      margin-bottom: 16px;
+      resize: vertical;
+    }
+    input[type=text] {
+      font-family: Arial, sans-serif;
+      width: 100%;
+      height: 25px;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-top: 6px;
+      margin-bottom: 16px;
+      resize: vertical;
+    }
+    button {
+      background-color: blue;
+      color: white;
+      padding: 6px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      font-family: Arial, sans-serif;
+    }
+    #result {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  color: blue;
+  font-size: 18px;
+  font-weight: bold;
+}
+  </style>
+</head>
+<body>
+
+<h1>Calculadora de Vazão</h1>
+<h2>pela fórmula de Manning</h2>
+
+<form id="calculatorForm" onsubmit="return false;">
+  <h3><p>Tipo de Geometria do Canal:</p></h3>
+  <select id="geometrySelect" onchange="updateInputFields()">
+    <option value="-" selected>-</option>
+    <option value="trapezoidal">Trapezoidal</option>
+    <option value="rectangular">Retangular</option>
+    <option value="triangular">Triangular</option>
+    <option value="circular">Circular</option>
+  </select><br>
+  <h3><p>Parâmetros de Entrada:</p></h3>
+  <div id="inputFields">
+  </div>
+  Inclinação (I, m/m): <input type="text" id="inclinationInput"><br>
+  Coeficiente de Rugosidade de Manning (n): <input type="text" id="nInput"><br>
+  <button onclick="calculateFlow()" style="margin-top: 10px;">Calcular Vazão</button>
+</form>
+
+<p id="result"></p>
+
+<script>
+// Atualizar os campos de entrada de acordo com a geometria escolhida
+function updateInputFields() {
+  var geometry = document.getElementById("geometrySelect").value;
+  var inputFields = document.getElementById("inputFields");
+  inputFields.innerHTML = "";
+
+  if (geometry == "trapezoidal") {
+    inputFields.innerHTML = "Base 1 (b1, m): <input type='text' id='b1Input'><br>" +
+                            "Base 2 (b2, m): <input type='text' id='b2Input'><br>" +
+                            "Altura (h, m): <input type='text' id='hInput'>";
+  } else if (geometry == "rectangular") {
+    inputFields.innerHTML = "Base (b, m): <input type='text' id='bInput'><br>" +
+                            "Altura (h, m): <input type='text' id='hInput'>";
+  } else if (geometry == "triangular") {
+    inputFields.innerHTML = "Base (b, m): <input type='text' id='bInput'><br>" +
+                            "Altura (h, m): <input type='text' id='hInput'>";
+  } else if (geometry == "circular") {
+    inputFields.innerHTML = "Diâmetro (d, m): <input type='text' id='dInput'>";
+  }
+}
+
+// Calcular a vazão
+function calculateFlow() {
+  // Obter a geometria e os parâmetros de entrada
+  var geometry = document.getElementById("geometrySelect").value;
+  var n = document.getElementById("nInput").value;
+
+  // Validar a entrada
+  if (geometry == "-" || n == "") {
+    alert("Por favor, preencha todos os campos de entrada.");
+    return;
+  }
+
+  // Calcular área e raio hidráulico de acordo com a geometria escolhida
+  var A, Rh;
+  if (geometry == "trapezoidal") {
+    var b1 = document.getElementById("b1Input").value;
+    var b2 = document.getElementById("b2Input").value;
+    var h = document.getElementById("hInput").value;
+    if (b1 == "" || b2 == "" || h == "") {
+      alert("Por favor, preencha todos os campos de entrada.");
+      return;
+    }
+    A = (b1 + b2) * h / 2;
+    Rh = (A / (b1 + b2)) + h / 2;
+  } else if (geometry == "rectangular") {
+    var b = document.getElementById("bInput").value;
+    var h = document.getElementById("hInput").value;
+    if (b == "" || h == "") {
+      alert("Por favor, preencha todos os campos de entrada.");
+      return;
+    }
+    A = b * h;
+    Rh = (A / b) + h / 2;
+  } else if (geometry == "triangular") {
+    var b = document.getElementById("bInput").value;
+    var h = document.getElementById("hInput").value;
+    if (b == "" || h == "") {
+      alert("Por favor, preencha todos os campos de entrada.");
+      return;
+    }
+    A = b * h / 2;
+    Rh = (2 * A / b) + h / 3;
+  } else if (geometry == "circular") {
+    var d = document.getElementById("dInput").value;
+    if (d == "") {
+      alert("Por favor, preencha todos os campos de entrada.");
+      return;
+    }
+    A = Math.PI * Math.pow(d/2, 2);
+    Rh = d/2;
+  }
+
+  // Obter o valor da inclinação
+  var I = document.getElementById("inclinationInput").value;
+
+  // Calcular a vazão using a fórmula de Manning
+  var Q = (A/n) * Math.pow(Rh, 2/3) * Math.sqrt(I);
+
+  // Validar a entrada
+  if (I == "") {
+    alert("Por favor, preencha todos os campos de entrada.");
+    return;
+  }
+
+  // Arredondar o resultado para 4 algarismos significativos
+  Q = Q.toFixed(4);
+
+  // Exibir o resultado na página
+  document.getElementById("result").innerHTML = "Vazão: " + Q + " m³/s";
+}
+</script>
+
+<script>
+  // Lista de frases aleatórias sobre ciência
+
+var hydraulicFacts = [
+"Os oceanos do mundo cobrem cerca de três quartos da superfície da Terra.",
+"A quantidade total de água na Terra é de cerca de 1400 milhões de quilômetros cúbicos, o suficiente para cobrir a Terra com uma camada de 3000 metros de profundidade.",
+"Apenas 2,7% da água total disponível na Terra é água fresca. Dessa, 75,2% estão congeladas nas regiões polares e 22,6% estão presentes como água subterrânea. O resto está disponível em lagos, rios, atmosfera, umidade, solo e vegetação.",
+"A crise sobre o desenvolvimento e gestão dos recursos hídricos surge porque a maior parte da água não está disponível para uso e, em segundo lugar, é caracterizada por sua distribuição espacial altamente desigual.",
+"A coleta de água da chuva tem sido realizada há milhares de anos em muitas partes do mundo. Hoje, essa técnica é usada na Ásia para repor os suprimentos subterrâneos.",
+"A coleta de água da chuva é relativamente barata e tem a vantagem de permitir que as comunidades locais desenvolvam e mantenham as estruturas necessárias por conta própria.",
+"Desviar a água da superfície para o solo pode ajudar a reduzir perdas por evaporação, compensar variações no fluxo e melhorar a qualidade. As regiões do Oriente Médio e do Mediterrâneo estão aplicando essa estratégia.",
+"Barragens e reservatórios foram construídos para armazenar água para irrigação e consumo. Além disso, as barragens podem fornecer energia e ajudar a controlar enchentes, mas também podem causar impactos sociais e ambientais indesejáveis.",
+"O transferir água entre bacias fluviais também pode ajudar a aliviar escassez. A China, por exemplo, já possui grandes interligações entre bacias e está planejando mais. O impacto desses projetos nas pessoas e no ambiente deve ser monitorado de perto.",
+"Água tratada é reutilizada para diferentes propósitos em muitos países, especialmente no Oriente Médio, e essa prática deve crescer. Em todo o mundo, água não potável é usada para irrigação e resfriamento industrial. As cidades também estão se voltando para a reutilização de água para complementar os suprimentos de água potável, aproveitando o progresso no tratamento de água.",
+"Água desalinizada - água do mar e outras águas salgadas que foram transformadas em água fresca - é usada por cidades e indústrias, especialmente no Oriente Médio. O custo dessa técnica caiu significativamente, mas ela depende fortemente de energia proveniente de combustíveis fósseis e levanta questões de gestão de resíduos e mudanças climáticas."
+];
+
+// Selecionar uma frase aleatória da lista e adicionar ao final da página
+var randomFact = hydraulicFacts[Math.floor(Math.random() * hydraulicFacts.length)];
+document.body.innerHTML += "<h4><p>&quot;" + randomFact + "&quot;</p></h4>";
+</script>
+</body>
+</html>
