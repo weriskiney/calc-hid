@@ -1,4 +1,4 @@
-# calc-hid
+# CALCULADORA HIDRÁULICA
 Calculadora de parâmetros hidráulicos em condutos forçados e livres.
 
 Este é um projeto de uma calculadora hidráulica que possui três categorias de cálculos: escoamento, perda de carga e canais. Cada categoria possui várias opções de cálculos, como o cálculo do número de Reynolds, velocidade de atrito, tensão média de cisalhamento, entre outros.
