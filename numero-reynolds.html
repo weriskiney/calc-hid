@@ -107,6 +107,8 @@
         var diametro = document.getElementById("diametro").value;
         var viscosidade = document.getElementById("viscosidade").value;
         var reynolds = velocidade * diametro / viscosidade;
+	      // Arredondar o resultado para 4 algarismos significativos
+	  reynolds = reynolds.toFixed(4);
         document.getElementById("result").innerHTML = "Reynolds: " + reynolds;
       }
     </script>
