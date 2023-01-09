@@ -1,1 +1,140 @@
-"Estamos em desenvolvimento desse site. Aguarde." 
+<!DOCTYPE html>
+<html>
+  <head>
+  <style>
+    /* Adicionar estilo CSS aqui */
+    h1 {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      color: blue;
+      margin-bottom: 0px;
+    }
+    h2 {
+      text-align: center;	
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+      color: blue;
+      margin-bottom: 30px;
+      margin-top: 0px;
+    }
+    h3 {
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      font-weight: bold;
+      color: blue;
+      margin-bottom: 10px;
+    }
+    h4 {
+	  text-align: center;
+	  font-family: Arial, sans-serif;
+	  font-size: 12px;
+	  color: blue;
+	  margin-top: 30px;
+	  margin-bottom: 0px;
+	  display: block;
+	  width: 25%;
+	  margin: 0 auto;
+	}
+    form {
+      width: 500px;
+      margin: 0 auto;
+      text-align: left;
+      font-family: Arial, sans-serif;
+    }
+    p {
+      font-family: Arial, sans-serif;
+	  word-wrap: break-word;
+    }
+    select {
+      font-family: Arial, sans-serif;
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-top: 6px;
+      margin-bottom: 16px;
+      resize: vertical;
+    }
+    input[type=text] {
+      font-family: Arial, sans-serif;
+      width: 100%;
+      height: 25px;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-top: 6px;
+      margin-bottom: 16px;
+      resize: vertical;
+    }
+    button {
+      background-color: blue;
+      color: white;
+      padding: 6px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      margin-bottom: 16px;
+      font-family: Arial, sans-serif;
+    }
+    #result {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  color: blue;
+  font-size: 18px;
+  font-weight: bold;
+}
+  </style>
+  </head>
+  <body>
+    <h1>Calculadora de velocidade de atrito</h1>
+    <h2>usando a tensão média de cisalhamento</h2>
+    <form>
+      <h3>Tensão média de cisalhamento (N/m²):</h3>
+      <input type="text" id="tensaoCisalhamento" name="tensaoCisalhamento"><br>
+      <h3>Massa específica (Kg/m³):</h3>
+      <input type="text" id="massaEspecifica" name="massaEspecifica"><br>
+      <button type="button" onclick="calcularVel()">Calcular</button>
+    </form>
+    <h4 id="result"></h4>
+    <script>
+      function calcularVel() {
+        var tensaoCisalhamento = document.getElementById("tensaoCisalhamento").value;
+        var massaEspecifica = document.getElementById("massaEspecifica").value;
+        var u = Math.sqrt(tensaoCisalhamento / massaEspecifica);
+		// Arredondar o resultado para 4 algarismos significativos
+		u = u.toPrecision(4);
+	  	  
+       document.getElementById("result").innerHTML = "Velocidade de atrito: " + u + "m/s";
+      }
+    </script>
+	
+	<script>
+	  // Lista de frases aleatórias sobre ciência
+
+		var hydraulicFacts = [
+		"Os oceanos do mundo cobrem cerca de três quartos da superfície da Terra.",
+		"A quantidade total de água na Terra é de cerca de 1400 milhões de quilômetros cúbicos, o suficiente para cobrir a Terra com uma camada de 3000 metros de profundidade.",
+		"Apenas 2,7% da água total disponível na Terra é água fresca. Dessa, 75,2% estão congeladas nas regiões polares e 22,6% estão presentes como água subterrânea. O resto está disponível em lagos, rios, atmosfera, umidade, solo e vegetação.",
+		"A crise sobre o desenvolvimento e gestão dos recursos hídricos surge porque a maior parte da água não está disponível para uso e, em segundo lugar, é caracterizada por sua distribuição espacial altamente desigual.",
+		"A coleta de água da chuva tem sido realizada há milhares de anos em muitas partes do mundo. Hoje, essa técnica é usada na Ásia para repor os suprimentos subterrâneos.",
+		"A coleta de água da chuva é relativamente barata e tem a vantagem de permitir que as comunidades locais desenvolvam e mantenham as estruturas necessárias por conta própria.",
+		"Desviar a água da superfície para o solo pode ajudar a reduzir perdas por evaporação, compensar variações no fluxo e melhorar a qualidade. As regiões do Oriente Médio e do Mediterrâneo estão aplicando essa estratégia.",
+		"Barragens e reservatórios foram construídos para armazenar água para irrigação e consumo. Além disso, as barragens podem fornecer energia e ajudar a controlar enchentes, mas também podem causar impactos sociais e ambientais indesejáveis.",
+		"O transferir água entre bacias fluviais também pode ajudar a aliviar escassez. A China, por exemplo, já possui grandes interligações entre bacias e está planejando mais. O impacto desses projetos nas pessoas e no ambiente deve ser monitorado de perto.",
+		"Água tratada é reutilizada para diferentes propósitos em muitos países, especialmente no Oriente Médio, e essa prática deve crescer. Em todo o mundo, água não potável é usada para irrigação e resfriamento industrial. As cidades também estão se voltando para a reutilização de água para complementar os suprimentos de água potável, aproveitando o progresso no tratamento de água.",
+		"Água desalinizada - água do mar e outras águas salgadas que foram transformadas em água fresca - é usada por cidades e indústrias, especialmente no Oriente Médio. O custo dessa técnica caiu significativamente, mas ela depende fortemente de energia proveniente de combustíveis fósseis e levanta questões de gestão de resíduos e mudanças climáticas."
+		];
+
+	// Selecionar uma frase aleatória da lista e adicionar ao final da página
+	var randomFact = hydraulicFacts[Math.floor(Math.random() * hydraulicFacts.length)];
+	document.body.innerHTML += "<h4><p>&quot;" + randomFact + "&quot;</p></h4>";
+	</script>
+	
+  </body>
+</html>
+
+
+
